@@ -1,0 +1,40 @@
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="piccoloGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#32CD32;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#228B22;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="300" height="400" fill="url(#piccoloGradient)"/>
+  
+  <!-- Cabeza verde -->
+  <circle cx="150" cy="120" r="60" fill="#32CD32"/>
+  
+  <!-- Antenas -->
+  <line x1="130" y1="60" x2="130" y2="80" stroke="#32CD32" stroke-width="4"/>
+  <line x1="170" y1="60" x2="170" y2="80" stroke="#32CD32" stroke-width="4"/>
+  <circle cx="130" cy="60" r="3" fill="#32CD32"/>
+  <circle cx="170" cy="60" r="3" fill="#32CD32"/>
+  
+  <!-- Ojos -->
+  <circle cx="130" cy="110" r="8" fill="#000000"/>
+  <circle cx="170" cy="110" r="8" fill="#000000"/>
+  
+  <!-- Boca -->
+  <path d="M130 140 Q150 150 170 140" stroke="#000000" stroke-width="3" fill="none"/>
+  
+  <!-- Cuerpo -->
+  <rect x="100" y="180" width="100" height="120" fill="#228B22"/>
+  
+  <!-- Cinturón -->
+  <rect x="100" y="250" width="100" height="20" fill="#8B4513"/>
+  
+  <!-- Piernas -->
+  <rect x="110" y="300" width="30" height="80" fill="#006400"/>
+  <rect x="160" y="300" width="30" height="80" fill="#006400"/>
+  
+  <!-- Texto -->
+  <text x="150" y="380" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#FFFFFF">PICCOLO</text>
+</svg>

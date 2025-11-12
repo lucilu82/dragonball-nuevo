@@ -1,0 +1,126 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="ball1" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#ee5a52"/>
+    </radialGradient>
+    <radialGradient id="ball2" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#ffa726"/>
+      <stop offset="100%" stop-color="#ff9800"/>
+    </radialGradient>
+    <radialGradient id="ball3" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#66bb6a"/>
+      <stop offset="100%" stop-color="#4caf50"/>
+    </radialGradient>
+    <radialGradient id="ball4" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#42a5f5"/>
+      <stop offset="100%" stop-color="#2196f3"/>
+    </radialGradient>
+    <radialGradient id="ball5" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#ab47bc"/>
+      <stop offset="100%" stop-color="#9c27b0"/>
+    </radialGradient>
+    <radialGradient id="ball6" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#ff7043"/>
+      <stop offset="100%" stop-color="#ff5722"/>
+    </radialGradient>
+    <radialGradient id="ball7" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#ffd54f"/>
+      <stop offset="100%" stop-color="#ffc107"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo con patrón de estrellas -->
+  <rect width="512" height="512" fill="#0a0a0a"/>
+  <g opacity="0.3">
+    <circle cx="100" cy="80" r="1" fill="#fff"/>
+    <circle cx="200" cy="120" r="1" fill="#fff"/>
+    <circle cx="300" cy="60" r="1" fill="#fff"/>
+    <circle cx="400" cy="100" r="1" fill="#fff"/>
+    <circle cx="150" cy="200" r="1" fill="#fff"/>
+    <circle cx="250" cy="180" r="1" fill="#fff"/>
+    <circle cx="350" cy="220" r="1" fill="#fff"/>
+    <circle cx="80" cy="300" r="1" fill="#fff"/>
+    <circle cx="180" cy="320" r="1" fill="#fff"/>
+    <circle cx="280" cy="280" r="1" fill="#fff"/>
+    <circle cx="380" cy="300" r="1" fill="#fff"/>
+    <circle cx="120" cy="400" r="1" fill="#fff"/>
+    <circle cx="220" cy="420" r="1" fill="#fff"/>
+    <circle cx="320" cy="380" r="1" fill="#fff"/>
+    <circle cx="420" cy="400" r="1" fill="#fff"/>
+  </g>
+  
+  <!-- Bolas de Dragón -->
+  <!-- Bola 1 estrella -->
+  <circle cx="128" cy="200" r="35" fill="url(#ball1)" filter="url(#glow)"/>
+  <polygon points="128,180 132,190 142,190 134,198 138,208 128,202 118,208 122,198 114,190 124,190" fill="#fff" opacity="0.9"/>
+  
+  <!-- Bola 2 estrellas -->
+  <circle cx="256" cy="150" r="35" fill="url(#ball2)" filter="url(#glow)"/>
+  <g fill="#fff" opacity="0.9">
+    <polygon points="256,130 260,140 270,140 262,148 266,158 256,152 246,158 250,148 242,140 252,140"/>
+    <polygon points="256,160 260,170 270,170 262,178 266,188 256,182 246,188 250,178 242,170 252,170"/>
+  </g>
+  
+  <!-- Bola 3 estrellas -->
+  <circle cx="384" cy="200" r="35" fill="url(#ball3)" filter="url(#glow)"/>
+  <g fill="#fff" opacity="0.9">
+    <polygon points="384,180 388,190 398,190 390,198 394,208 384,202 374,208 378,198 370,190 380,190"/>
+    <polygon points="384,200 388,210 398,210 390,218 394,228 384,222 374,228 378,218 370,210 380,210"/>
+    <polygon points="384,220 388,230 398,230 390,238 394,248 384,242 374,248 378,238 370,230 380,230"/>
+  </g>
+  
+  <!-- Bola 4 estrellas -->
+  <circle cx="128" cy="320" r="35" fill="url(#ball4)" filter="url(#glow)"/>
+  <g fill="#fff" opacity="0.9">
+    <polygon points="128,300 132,310 142,310 134,318 138,328 128,322 118,328 122,318 114,310 124,310"/>
+    <polygon points="128,320 132,330 142,330 134,338 138,348 128,342 118,348 122,338 114,330 124,330"/>
+    <polygon points="128,340 132,350 142,350 134,358 138,368 128,362 118,368 122,358 114,350 124,350"/>
+    <polygon points="128,360 132,370 142,370 134,378 138,388 128,382 118,388 122,378 114,370 124,370"/>
+  </g>
+  
+  <!-- Bola 5 estrellas -->
+  <circle cx="256" cy="350" r="35" fill="url(#ball5)" filter="url(#glow)"/>
+  <g fill="#fff" opacity="0.9">
+    <polygon points="256,330 260,340 270,340 262,348 266,358 256,352 246,358 250,348 242,340 252,340"/>
+    <polygon points="256,350 260,360 270,360 262,368 266,378 256,372 246,378 250,368 242,360 252,360"/>
+    <polygon points="256,370 260,380 270,380 262,388 266,398 256,392 246,398 250,388 242,380 252,380"/>
+    <polygon points="256,390 260,400 270,400 262,408 266,418 256,412 246,418 250,408 242,400 252,400"/>
+    <polygon points="256,410 260,420 270,420 262,428 266,438 256,432 246,438 250,428 242,420 252,420"/>
+  </g>
+  
+  <!-- Bola 6 estrellas -->
+  <circle cx="384" cy="320" r="35" fill="url(#ball6)" filter="url(#glow)"/>
+  <g fill="#fff" opacity="0.9">
+    <polygon points="384,300 388,310 398,310 390,318 394,328 384,322 374,328 378,318 370,310 380,310"/>
+    <polygon points="384,320 388,330 398,330 390,338 394,348 384,342 374,348 378,338 370,330 380,330"/>
+    <polygon points="384,340 388,350 398,350 390,358 394,368 384,362 374,368 378,358 370,350 380,350"/>
+    <polygon points="384,360 388,370 398,370 390,378 394,388 384,382 374,388 378,378 370,370 380,370"/>
+    <polygon points="384,380 388,390 398,390 390,398 394,408 384,402 374,408 378,398 370,390 380,390"/>
+    <polygon points="384,400 388,410 398,410 390,418 394,428 384,422 374,428 378,418 370,410 380,410"/>
+  </g>
+  
+  <!-- Bola 7 estrellas -->
+  <circle cx="256" cy="256" r="40" fill="url(#ball7)" filter="url(#glow)"/>
+  <g fill="#fff" opacity="0.9">
+    <polygon points="256,230 260,240 270,240 262,248 266,258 256,252 246,258 250,248 242,240 252,240"/>
+    <polygon points="256,250 260,260 270,260 262,268 266,278 256,272 246,278 250,268 242,260 252,260"/>
+    <polygon points="256,270 260,280 270,280 262,288 266,298 256,292 246,298 250,288 242,280 252,280"/>
+    <polygon points="256,290 260,300 270,300 262,308 266,318 256,312 246,318 250,308 242,300 252,300"/>
+    <polygon points="256,310 260,320 270,320 262,328 266,338 256,332 246,338 250,328 242,320 252,320"/>
+    <polygon points="256,330 260,340 270,340 262,348 266,358 256,352 246,358 250,348 242,340 252,340"/>
+    <polygon points="256,350 260,360 270,360 262,368 266,378 256,372 246,378 250,368 242,360 252,360"/>
+  </g>
+  
+  <!-- Texto "DRAGON BALLS" -->
+  <text x="256" y="450" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="24" font-weight="bold" opacity="0.8">
+    DRAGON BALLS
+  </text>
+</svg>
