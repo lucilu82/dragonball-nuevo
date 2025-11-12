@@ -152,6 +152,74 @@
       </div>
     </div>
 
+    <!-- Sección de registro -->
+    <section id="registro" class="relative z-10 bg-slate-950/80 py-20">
+      <div class="absolute inset-0 bg-[url('https://web.dragonball-api.com/images-compress/backgrounds/background_planets.webp')] opacity-10 mix-blend-screen pointer-events-none"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/80 via-slate-950/90 to-slate-900/80 pointer-events-none"></div>
+
+      <div class="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 lg:flex-row lg:items-center">
+        <div class="flex-1 space-y-6 text-slate-200">
+          <p class="text-sm uppercase tracking-[0.3em] text-indigo-300">Únete a la comunidad</p>
+          <h2 class="text-4xl font-extrabold text-white drop-shadow-lg md:text-5xl">
+            Desbloquea contenido exclusivo creando tu cuenta
+          </h2>
+          <p class="text-lg text-slate-300">
+            Gestiona tus personajes favoritos, crea nuevas fichas y mantente al día con las últimas transformaciones del universo Dragon Ball.
+          </p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4">
+              <h3 class="text-lg font-semibold text-indigo-200">Colecciona</h3>
+              <p class="text-sm text-slate-300">
+                Guarda tus personajes y planetas preferidos para consultarlos al instante.
+              </p>
+            </div>
+            <div class="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-4">
+              <h3 class="text-lg font-semibold text-yellow-200">Crea contenido</h3>
+              <p class="text-sm text-slate-300">
+                Añade nuevos guerreros y describe sus poderes para compartirlos con otros fans.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-1">
+          <div class="rounded-3xl border border-slate-700/60 bg-slate-900/80 p-8 shadow-2xl shadow-indigo-500/20 backdrop-blur">
+            <div class="mb-6 flex items-center justify-center gap-3 rounded-full bg-slate-800/60 p-1">
+              <button
+                type="button"
+                class="flex-1 rounded-full px-4 py-2 text-sm font-semibold transition"
+                :class="activeAuthTab === 'register' ? 'bg-indigo-500 text-white shadow-lg' : 'text-slate-400 hover:text-slate-200'"
+                @click="activeAuthTab = 'register'"
+              >
+                Crear cuenta
+              </button>
+              <button
+                type="button"
+                class="flex-1 rounded-full px-4 py-2 text-sm font-semibold transition"
+                :class="activeAuthTab === 'login' ? 'bg-emerald-500 text-white shadow-lg' : 'text-slate-400 hover:text-slate-200'"
+                @click="activeAuthTab = 'login'"
+              >
+                Iniciar sesión
+              </button>
+            </div>
+
+            <div class="space-y-6">
+              <transition name="fade" mode="out-in">
+                <div v-if="activeAuthTab === 'register'" key="register">
+                  <h3 class="mb-4 text-center text-2xl font-semibold text-white">Crea tu cuenta</h3>
+                  <RegisterForm :redirect-to="'/'" />
+                </div>
+                <div v-else key="login">
+                  <h3 class="mb-4 text-center text-2xl font-semibold text-white">Bienvenido de vuelta</h3>
+                  <LoginForm :redirect-to="'/'" />
+                </div>
+              </transition>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Contenido principal -->
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <!-- Título para personajes destacados -->
@@ -317,6 +385,8 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig()
+const activeAuthTab = ref<'register' | 'login'>('register')
 const stats = ref({
   personajes: 0,
   planetas: 0,
@@ -780,6 +850,17 @@ const handleLogoError = (event) => {
     transform: translate(15px, -20px) scale(1.05);
     opacity: 0.85;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
 }
 </style>
 
