@@ -1,5 +1,5 @@
 <template>
-  <div class="page-characters relative min-h-screen overflow-hidden p-8">
+  <div class="page-characters relative min-h-screen overflow-hidden p-4 sm:p-6 lg:p-8">
     <div class="absolute inset-0 page-characters__overlay pointer-events-none"></div>
     <div class="absolute inset-0 page-characters__stars pointer-events-none"></div>
     <div class="absolute inset-0 page-characters__lightning pointer-events-none">
@@ -19,42 +19,42 @@
     </div>
 
     <div class="page-characters__content relative z-10">
-      <div class="flex justify-between items-center mb-6">
-        <div class="flex flex-col items-center md:flex-row md:items-center gap-4 text-center md:text-left">
+      <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 mb-6">
+        <div class="flex flex-col items-center sm:flex-row sm:items-center gap-3 sm:gap-4 text-center sm:text-left">
           <NuxtLink to="/" class="flex items-center hover:opacity-80 transition-opacity duration-200">
             <img 
               src="https://elmundodragonball.com/wp-content/uploads/2023/06/cropped-cropped-logo-goku.png" 
               alt="Dragon Ball Personajes" 
-              class="h-16 md:h-20 object-contain cursor-pointer"
+              class="h-12 sm:h-16 md:h-20 object-contain cursor-pointer"
               @error="handleLogoError"
             />
           </NuxtLink>
-          <h1 class="text-3xl font-bold dragon-ball-title">Personajes de Dragon Ball</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold dragon-ball-title">Personajes de Dragon Ball</h1>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-center sm:justify-end">
           <NuxtLink 
             to="/nuevo-personaje" 
-            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200"
+            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors duration-200 text-sm sm:text-base whitespace-nowrap"
           >
-            ➕ Nuevo Personaje
+            ➕ <span class="hidden sm:inline">Nuevo Personaje</span><span class="sm:hidden">Nuevo</span>
           </NuxtLink>
         </div>
       </div>
 
     <!-- Barra de búsqueda -->
-    <div class="mb-6">
+    <div class="mb-4 sm:mb-6">
       <div class="relative">
         <input 
           v-model="busqueda"
           type="text" 
-          placeholder="Buscar personajes por nombre, raza o planeta..."
-          class="w-full p-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Buscar personajes..."
+          class="w-full p-2.5 sm:p-3 pl-10 sm:pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base bg-white"
         />
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <div class="absolute inset-y-0 left-0 pl-2.5 sm:pl-3 flex items-center pointer-events-none">
           <img 
             src="https://dragonballzshop.com/wp-content/uploads/2023/07/5622756_0-1.png" 
             alt="Buscar" 
-            class="w-6 h-6 object-contain opacity-70"
+            class="w-5 h-5 sm:w-6 sm:h-6 object-contain opacity-70"
             @error="(e) => { e.target.style.display = 'none'; }"
           />
         </div>
@@ -62,8 +62,8 @@
     </div>
 
     <!-- Filtros -->
-    <div class="mb-6 flex flex-wrap gap-4">
-      <select v-model="filtroRaza" class="border border-gray-300 rounded-lg px-3 py-2">
+    <div class="mb-6 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+      <select v-model="filtroRaza" class="flex-1 min-w-[150px] border border-gray-300 rounded-lg px-3 py-2 text-sm sm:text-base bg-white">
         <option value="">Todas las razas</option>
         <option value="Saiyajin">Saiyajin</option>
         <option value="Namekiano">Namekiano</option>
@@ -72,7 +72,7 @@
         <option value="Robot">Robot</option>
       </select>
       
-      <select v-model="filtroPlaneta" class="border border-gray-300 rounded-lg px-3 py-2">
+      <select v-model="filtroPlaneta" class="flex-1 min-w-[150px] border border-gray-300 rounded-lg px-3 py-2 text-sm sm:text-base bg-white">
         <option value="">Todos los planetas</option>
         <option
           v-for="planetaNombre in planetasDisponibles"
@@ -83,7 +83,7 @@
         </option>
       </select>
       
-      <select v-model="ordenPoder" class="border border-gray-300 rounded-lg px-3 py-2">
+      <select v-model="ordenPoder" class="flex-1 min-w-[150px] border border-gray-300 rounded-lg px-3 py-2 text-sm sm:text-base bg-white">
         <option value="">Ordenar por poder</option>
         <option value="asc">Menor a mayor</option>
         <option value="desc">Mayor a menor</option>
@@ -100,7 +100,7 @@
     <!-- Grid de cartas tipo cromo con flip 3D -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <div 
-        v-for="personaje in personajesFiltrados" 
+        v-for="personaje in personajesPaginados" 
         :key="personaje.id" 
         :class="[
           'relative group rounded-2xl overflow-hidden shadow-xl bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-96',
@@ -263,12 +263,59 @@
         </div>
       </div>
     </div>
+
+    <!-- Paginación solo en móvil -->
+    <div v-if="!loading && personajesFiltrados.length > 0 && totalPaginas > 1" class="md:hidden mt-8 flex flex-col items-center gap-4">
+      <div class="flex items-center gap-2">
+        <button
+          @click="cambiarPagina(paginaActual - 1)"
+          :disabled="paginaActual === 1"
+          class="px-4 py-2 rounded-lg bg-blue-500 text-white font-semibold transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed hover:bg-blue-600"
+        >
+          ← Anterior
+        </button>
+        
+        <div class="flex items-center gap-2">
+          <span class="text-white font-semibold">Página</span>
+          <span class="px-3 py-1 bg-white/20 rounded-lg text-white font-bold">{{ paginaActual }}</span>
+          <span class="text-white font-semibold">de {{ totalPaginas }}</span>
+        </div>
+        
+        <button
+          @click="cambiarPagina(paginaActual + 1)"
+          :disabled="paginaActual === totalPaginas"
+          class="px-4 py-2 rounded-lg bg-blue-500 text-white font-semibold transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed hover:bg-blue-600"
+        >
+          Siguiente →
+        </button>
+      </div>
+      
+      <!-- Indicadores de página (puntos) -->
+      <div class="flex gap-2">
+        <button
+          v-for="pagina in totalPaginas"
+          :key="pagina"
+          @click="cambiarPagina(pagina)"
+          :class="[
+            'w-3 h-3 rounded-full transition-all duration-200',
+            pagina === paginaActual 
+              ? 'bg-yellow-400 scale-125' 
+              : 'bg-white/40 hover:bg-white/60'
+          ]"
+          :aria-label="`Ir a página ${pagina}`"
+        />
+      </div>
+      
+      <p class="text-white/70 text-sm">
+        Mostrando {{ ((paginaActual - 1) * itemsPorPagina) + 1 }}-{{ Math.min(paginaActual * itemsPorPagina, personajesFiltrados.length) }} de {{ personajesFiltrados.length }} personajes
+      </p>
+    </div>
   </div>
   </div>
 </template>
 
 <script setup>
-import { onActivated, watch } from 'vue'
+import { onActivated, watch, onMounted, onBeforeUnmount } from 'vue'
 
 const route = useRoute()
 const personajes = ref([])
@@ -279,6 +326,29 @@ const filtroRaza = ref('')
 const filtroPlaneta = ref('')
 const ordenPoder = ref('')
 const imageError = ref({})
+
+// Paginación para móvil
+const paginaActual = ref(1)
+const itemsPorPagina = ref(6) // 6 personajes por página en móvil
+const esMovil = ref(false)
+
+// Detectar si es móvil
+const checkMovil = () => {
+  if (typeof window !== 'undefined') {
+    esMovil.value = window.innerWidth < 768
+  }
+}
+
+onMounted(() => {
+  checkMovil()
+  window.addEventListener('resize', checkMovil)
+})
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', checkMovil)
+  }
+})
 
 // Estilos para efectos de cromo
 const holoStyle = `background: conic-gradient(from 0deg, rgba(255,0,153,0.25), rgba(0,204,255,0.25), rgba(0,255,153,0.25), rgba(255,255,0,0.25), rgba(255,0,153,0.25)); filter: blur(12px);`;
@@ -510,6 +580,43 @@ const personajesFiltrados = computed(() => {
   }
   
   return resultado
+})
+
+// Computed para personajes paginados (solo en móvil)
+const personajesPaginados = computed(() => {
+  // En desktop (md y superior), mostrar todos los personajes
+  if (!esMovil.value) {
+    return personajesFiltrados.value
+  }
+  
+  // En móvil, aplicar paginación
+  const inicio = (paginaActual.value - 1) * itemsPorPagina.value
+  const fin = inicio + itemsPorPagina.value
+  return personajesFiltrados.value.slice(inicio, fin)
+})
+
+// Computed para el total de páginas
+const totalPaginas = computed(() => {
+  if (!esMovil.value) {
+    return 1 // No hay paginación en desktop
+  }
+  return Math.ceil(personajesFiltrados.value.length / itemsPorPagina.value)
+})
+
+// Función para cambiar de página
+const cambiarPagina = (nuevaPagina) => {
+  if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas.value) {
+    paginaActual.value = nuevaPagina
+    // Scroll al inicio de la lista en móvil
+    if (esMovil.value) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+}
+
+// Resetear a página 1 cuando cambian los filtros
+watch([busqueda, filtroRaza, filtroPlaneta, ordenPoder], () => {
+  paginaActual.value = 1
 })
 
 const planetasDisponibles = computed(() => {
@@ -828,9 +935,20 @@ const eliminarPersonaje = async (personaje) => {
     0 0 16px rgba(248, 250, 252, 0.35);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .dragon-ball-title {
     text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-characters {
+    padding: 1rem;
+  }
+  
+  .flip-card {
+    height: auto;
+    min-height: 380px;
   }
 }
 

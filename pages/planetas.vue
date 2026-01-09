@@ -1,5 +1,5 @@
 <template>
-  <div class="page-galaxy relative min-h-screen p-8 overflow-hidden">
+  <div class="page-galaxy relative min-h-screen p-4 sm:p-6 lg:p-8 overflow-hidden">
     <div class="absolute inset-0 page-galaxy__overlay pointer-events-none"></div>
     <div class="absolute inset-0 page-galaxy__stars pointer-events-none"></div>
     <div class="absolute inset-0 page-galaxy__lightning pointer-events-none">
@@ -19,30 +19,30 @@
     </div>
 
     <div class="page-galaxy__content relative z-10">
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-        <NuxtLink to="/" class="planet-title text-3xl font-bold flex items-center gap-2 transition-transform duration-200 hover:scale-105">
+      <div class="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-center md:justify-between mb-6">
+        <NuxtLink to="/" class="planet-title text-xl sm:text-2xl md:text-3xl font-bold flex items-center gap-2 transition-transform duration-200 hover:scale-105 text-center sm:text-left">
           <span>🪐</span>
-          <span>Planetas del Universo Dragon Ball</span>
+          <span class="whitespace-nowrap">Planetas del Universo Dragon Ball</span>
         </NuxtLink>
-        <div class="flex flex-wrap gap-3">
+        <div class="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-end">
           <NuxtLink 
             to="/nuevo-planeta"
-            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200"
+            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors duration-200 text-sm sm:text-base whitespace-nowrap"
           >
-            ➕ Nuevo Planeta
+            ➕ <span class="hidden sm:inline">Nuevo Planeta</span><span class="sm:hidden">Nuevo</span>
           </NuxtLink>
           <NuxtLink 
             to="/personajes" 
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition-colors duration-200 text-sm sm:text-base whitespace-nowrap"
           >
-            👥 Ver Personajes
+            👥 <span class="hidden sm:inline">Ver Personajes</span><span class="sm:hidden">Personajes</span>
           </NuxtLink>
         </div>
       </div>
 
       <div v-if="loading" class="text-center text-gray-600 italic">Cargando planetas...</div>
 
-      <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10">
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
         <div
           v-for="planeta in planetas"
           :key="planeta.id"
@@ -931,6 +931,41 @@ watch(() => route.query.refresh, async (refresh) => {
 
   .planet-name {
     font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-galaxy {
+    padding: 1rem;
+  }
+  
+  .planet-card__inner {
+    padding: 1.25rem 1rem;
+  }
+
+  .planet-orbit {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .planet-orbit__planet,
+  .planet-orbit__fallback {
+    width: 4.5rem;
+    height: 4.5rem;
+    font-size: 2.5rem;
+  }
+
+  .planet-name {
+    font-size: 1.35rem;
+  }
+  
+  .planet-stats__value {
+    font-size: 1.25rem;
+  }
+  
+  .planet-card__action {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.8rem;
   }
 }
 </style>

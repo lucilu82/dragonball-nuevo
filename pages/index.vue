@@ -22,49 +22,95 @@
     <!-- Header con navegación -->
     <nav class="bg-white shadow-sm border-b border-gray-200 relative z-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between items-center h-16">
           <div class="flex items-center">
             <NuxtLink to="/" class="flex items-center hover:opacity-80 transition-opacity">
               <img 
                 src="https://web.dragonball-api.com/images-compress/logo_dragonballapi.webp" 
                 alt="Dragon Ball Universe" 
-                class="h-10 md:h-12 object-contain"
+                class="h-8 sm:h-10 md:h-12 object-contain"
                 @error="handleLogoError"
               />
             </NuxtLink>
           </div>
-          <div class="flex items-center space-x-4 relative z-50">
+          <!-- Menú móvil hamburguesa -->
+          <button 
+            @click="menuOpen = !menuOpen"
+            class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
+            aria-label="Menú"
+          >
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path v-if="!menuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <!-- Menú desktop -->
+          <div class="hidden md:flex items-center space-x-2 lg:space-x-4 relative z-50">
             <NuxtLink 
               to="/personajes" 
-              class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-nav"
+              class="text-gray-600 hover:text-gray-900 px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-nav"
             >
-              👥 Personajes
+              👥 <span class="hidden lg:inline">Personajes</span><span class="lg:hidden">Personajes</span>
             </NuxtLink>
             <NuxtLink 
               to="/planetas" 
-              class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-nav"
+              class="text-gray-600 hover:text-gray-900 px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-nav"
             >
-              🪐 Planetas
+              🪐 <span class="hidden lg:inline">Planetas</span><span class="lg:hidden">Planetas</span>
             </NuxtLink>
             <NuxtLink 
               to="/transformaciones" 
-              class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-nav"
+              class="text-gray-600 hover:text-gray-900 px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-nav hidden lg:block"
             >
               ⚡ Transformaciones
             </NuxtLink>
             <NuxtLink 
               to="/nuevo-personaje" 
-              class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-button"
+              class="bg-green-500 hover:bg-green-600 text-white px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors duration-200 relative z-50 dragon-ball-button"
             >
-              ➕ Nuevo
+              ➕ <span class="hidden sm:inline">Nuevo</span>
             </NuxtLink>
           </div>
+        </div>
+        <!-- Menú móvil desplegable -->
+        <div 
+          v-show="menuOpen"
+          class="md:hidden border-t border-gray-200 py-4 space-y-2"
+        >
+          <NuxtLink 
+            to="/personajes" 
+            @click="menuOpen = false"
+            class="block px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md text-sm font-medium transition-colors duration-200 dragon-ball-nav"
+          >
+            👥 Personajes
+          </NuxtLink>
+          <NuxtLink 
+            to="/planetas" 
+            @click="menuOpen = false"
+            class="block px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md text-sm font-medium transition-colors duration-200 dragon-ball-nav"
+          >
+            🪐 Planetas
+          </NuxtLink>
+          <NuxtLink 
+            to="/transformaciones" 
+            @click="menuOpen = false"
+            class="block px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md text-sm font-medium transition-colors duration-200 dragon-ball-nav"
+          >
+            ⚡ Transformaciones
+          </NuxtLink>
+          <NuxtLink 
+            to="/nuevo-personaje" 
+            @click="menuOpen = false"
+            class="block px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm font-medium transition-colors duration-200 dragon-ball-button text-center"
+          >
+            ➕ Nuevo Personaje
+          </NuxtLink>
         </div>
       </div>
     </nav>
 
     <!-- Hero Section con dragón de fondo y rayos -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 min-h-[600px] z-10">
+    <div class="relative overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] z-10">
       <!-- Fondo oscuro con estrellas -->
       <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
       
@@ -102,28 +148,28 @@
       
       <!-- Overlay para mejorar legibilidad -->
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/50 pointer-events-none"></div>
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <!-- Texto principal -->
           <div class="text-center lg:text-left text-white">
-            <h1 class="text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-2xl dragon-ball-title">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-6 drop-shadow-2xl dragon-ball-title">
               Bienvenido al universo
               <span class="block text-yellow-300 animate-pulse">
                 Dragon Ball
               </span>
             </h1>
-            <p class="text-xl md:text-2xl mb-8 text-yellow-100 drop-shadow-lg">
+            <p class="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-yellow-100 drop-shadow-lg px-2 sm:px-0">
               Explora los personajes y planetas del universo más épico de todos los tiempos
             </p>
             <!-- Imagen principal destacada - Goku -->
-            <div class="flex justify-center lg:justify-start mt-8">
+            <div class="flex justify-center lg:justify-start mt-6 sm:mt-8">
               <div class="relative transform hover:scale-105 transition-transform duration-300">
                 <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur-3xl opacity-70 animate-pulse"></div>
                 <img 
                   v-if="personajePrincipal"
                   :src="getImageUrl(personajePrincipal)"
                   :alt="personajePrincipal?.nombre || 'Goku'"
-                  class="relative w-56 h-56 md:w-72 md:h-72 object-contain drop-shadow-2xl z-10"
+                  class="relative w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-2xl z-10"
                 />
                 <!-- Efecto de energía alrededor -->
                 <div class="absolute inset-0 border-4 border-yellow-400 rounded-full animate-ping opacity-20"></div>
@@ -153,29 +199,29 @@
     </div>
 
     <!-- Sección de registro -->
-    <section id="registro" class="relative z-10 bg-slate-950/80 py-20">
+    <section id="registro" class="relative z-10 bg-slate-950/80 py-12 sm:py-16 lg:py-20">
       <div class="absolute inset-0 bg-[url('https://web.dragonball-api.com/images-compress/backgrounds/background_planets.webp')] opacity-10 mix-blend-screen pointer-events-none"></div>
       <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/80 via-slate-950/90 to-slate-900/80 pointer-events-none"></div>
 
-      <div class="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 lg:flex-row lg:items-center">
-        <div class="flex-1 space-y-6 text-slate-200">
-          <p class="text-sm uppercase tracking-[0.3em] text-indigo-300">Únete a la comunidad</p>
-          <h2 class="text-4xl font-extrabold text-white drop-shadow-lg md:text-5xl">
+      <div class="relative mx-auto flex max-w-6xl flex-col gap-8 lg:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row lg:items-center">
+        <div class="flex-1 space-y-4 sm:space-y-6 text-slate-200">
+          <p class="text-xs sm:text-sm uppercase tracking-[0.3em] text-indigo-300">Únete a la comunidad</p>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg">
             Desbloquea contenido exclusivo creando tu cuenta
           </h2>
-          <p class="text-lg text-slate-300">
+          <p class="text-base sm:text-lg text-slate-300">
             Gestiona tus personajes favoritos, crea nuevas fichas y mantente al día con las últimas transformaciones del universo Dragon Ball.
           </p>
           <div class="grid gap-4 sm:grid-cols-2">
             <div class="rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4">
-              <h3 class="text-lg font-semibold text-indigo-200">Colecciona</h3>
-              <p class="text-sm text-slate-300">
+              <h3 class="text-base sm:text-lg font-semibold text-indigo-200">Colecciona</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
                 Guarda tus personajes y planetas preferidos para consultarlos al instante.
               </p>
             </div>
             <div class="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-4">
-              <h3 class="text-lg font-semibold text-yellow-200">Crea contenido</h3>
-              <p class="text-sm text-slate-300">
+              <h3 class="text-base sm:text-lg font-semibold text-yellow-200">Crea contenido</h3>
+              <p class="text-xs sm:text-sm text-slate-300">
                 Añade nuevos guerreros y describe sus poderes para compartirlos con otros fans.
               </p>
             </div>
@@ -183,57 +229,64 @@
         </div>
 
         <div class="flex-1">
-          <div class="rounded-3xl border border-slate-700/60 bg-slate-900/80 p-8 shadow-2xl shadow-indigo-500/20 backdrop-blur">
-            <div class="mb-6 flex items-center justify-center gap-3 rounded-full bg-slate-800/60 p-1">
-              <button
-                type="button"
-                class="flex-1 rounded-full px-4 py-2 text-sm font-semibold transition"
-                :class="activeAuthTab === 'register' ? 'bg-indigo-500 text-white shadow-lg' : 'text-slate-400 hover:text-slate-200'"
-                @click="activeAuthTab = 'register'"
+          <div class="rounded-2xl sm:rounded-3xl border border-slate-700/60 bg-slate-900/80 p-6 sm:p-8 shadow-2xl shadow-indigo-500/20 backdrop-blur">
+            <h3 class="mb-3 text-center text-xl sm:text-2xl font-semibold text-white">Gestiona tu cuenta</h3>
+            <p class="mb-6 text-center text-sm sm:text-base text-slate-300">
+              Crea una cuenta para empezar a coleccionar personajes o inicia sesión para continuar tu aventura.
+            </p>
+            <div class="grid gap-3">
+              <NuxtLink
+                to="/register"
+                class="flex items-center justify-center gap-2 rounded-full bg-indigo-500 px-4 py-2.5 sm:py-2 text-sm font-semibold text-white transition hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-300/70"
               >
                 Crear cuenta
-              </button>
-              <button
-                type="button"
-                class="flex-1 rounded-full px-4 py-2 text-sm font-semibold transition"
-                :class="activeAuthTab === 'login' ? 'bg-emerald-500 text-white shadow-lg' : 'text-slate-400 hover:text-slate-200'"
-                @click="activeAuthTab = 'login'"
+              </NuxtLink>
+              <NuxtLink
+                to="/login"
+                class="flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 sm:py-2 text-sm font-semibold text-white transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300/70"
               >
                 Iniciar sesión
-              </button>
+              </NuxtLink>
             </div>
-
-            <div class="space-y-6">
-              <transition name="fade" mode="out-in">
-                <div v-if="activeAuthTab === 'register'" key="register">
-                  <h3 class="mb-4 text-center text-2xl font-semibold text-white">Crea tu cuenta</h3>
-                  <RegisterForm :redirect-to="'/'" />
-                </div>
-                <div v-else key="login">
-                  <h3 class="mb-4 text-center text-2xl font-semibold text-white">Bienvenido de vuelta</h3>
-                  <LoginForm :redirect-to="'/'" />
-                </div>
-              </transition>
-            </div>
+            <p class="mt-6 text-center text-xs text-slate-400">
+              Al continuar aceptas nuestros términos y políticas de la Patrulla Roja de datos.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Contenido principal -->
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <!-- Título para personajes destacados -->
-      <div class="text-center mb-8">
-        <h2 class="text-4xl font-bold section-title mb-4 dragon-ball-title">
+      <div class="text-center mb-6 sm:mb-8">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold section-title mb-3 sm:mb-4 dragon-ball-title">
           Personajes Destacados
         </h2>
-        <p class="section-subtitle">
+        <p class="text-sm sm:text-base section-subtitle">
           Los guerreros más poderosos del universo
         </p>
       </div>
 
+      <!-- Estado de carga -->
+      <div v-if="loading" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div>
+        <p class="mt-4 text-white text-lg">Cargando personajes...</p>
+      </div>
+
+      <!-- Mensaje si no hay personajes -->
+      <div v-else-if="!loading && personajesDestacados.length === 0" class="text-center py-12">
+        <p class="text-white text-lg mb-4">No se encontraron personajes destacados</p>
+        <NuxtLink 
+          to="/nuevo-personaje" 
+          class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+        >
+          ➕ Crear Primer Personaje
+        </NuxtLink>
+      </div>
+
       <!-- Galería de personajes destacados -->
-      <div v-if="personajesDestacados.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      <div v-else-if="personajesDestacados.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         <NuxtLink
           v-for="personaje in personajesDestacados"
           :key="personaje.id"
@@ -278,70 +331,70 @@
       <div class="text-center">
 
         <!-- Estadísticas mejoradas -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl shadow-xl overflow-hidden group transform hover:scale-105 transition-all duration-300">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+          <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-4 sm:p-6 rounded-xl shadow-xl overflow-hidden group transform hover:scale-105 transition-all duration-300">
+            <div class="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-white/10 rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16"></div>
             <div class="relative z-10 text-white">
-              <div class="text-4xl mb-3">👥</div>
-              <div class="text-4xl font-bold mb-2">{{ stats.personajes }}</div>
-              <div class="text-blue-100 font-semibold">Personajes</div>
+              <div class="text-3xl sm:text-4xl mb-2 sm:mb-3">👥</div>
+              <div class="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">{{ stats.personajes }}</div>
+              <div class="text-sm sm:text-base text-blue-100 font-semibold">Personajes</div>
             </div>
-            <div v-if="personajesDestacados.length > 0" class="absolute bottom-0 right-0 opacity-20">
-              <img :src="getImageUrl(personajesDestacados[0])" alt="" class="w-24 h-24 object-contain" />
+            <div v-if="personajesDestacados.length > 0" class="absolute bottom-0 right-0 opacity-20 hidden sm:block">
+              <img :src="getImageUrl(personajesDestacados[0])" alt="" class="w-16 sm:w-24 h-16 sm:h-24 object-contain" />
             </div>
           </div>
-          <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-xl shadow-xl overflow-hidden group transform hover:scale-105 transition-all duration-300">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+          <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-4 sm:p-6 rounded-xl shadow-xl overflow-hidden group transform hover:scale-105 transition-all duration-300">
+            <div class="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-white/10 rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16"></div>
             <div class="relative z-10 text-white">
-              <div class="text-4xl mb-3">🪐</div>
-              <div class="text-4xl font-bold mb-2">{{ stats.planetas }}</div>
-              <div class="text-green-100 font-semibold">Planetas</div>
+              <div class="text-3xl sm:text-4xl mb-2 sm:mb-3">🪐</div>
+              <div class="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">{{ stats.planetas }}</div>
+              <div class="text-sm sm:text-base text-green-100 font-semibold">Planetas</div>
             </div>
-            <div class="absolute bottom-0 right-0 opacity-20">
-              <div class="text-6xl">🌍</div>
+            <div class="absolute bottom-0 right-0 opacity-20 hidden sm:block">
+              <div class="text-4xl sm:text-6xl">🌍</div>
             </div>
           </div>
-          <div class="relative bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-xl shadow-xl overflow-hidden group transform hover:scale-105 transition-all duration-300">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+          <div class="relative bg-gradient-to-br from-purple-500 to-purple-600 p-4 sm:p-6 rounded-xl shadow-xl overflow-hidden group transform hover:scale-105 transition-all duration-300 sm:col-span-2 md:col-span-1">
+            <div class="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-white/10 rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16"></div>
             <div class="relative z-10 text-white">
-              <div class="text-4xl mb-3">⚡</div>
-              <div class="text-4xl font-bold mb-2">{{ stats.poderTotal }}</div>
-              <div class="text-purple-100 font-semibold">Poder Total</div>
+              <div class="text-3xl sm:text-4xl mb-2 sm:mb-3">⚡</div>
+              <div class="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">{{ stats.poderTotal }}</div>
+              <div class="text-sm sm:text-base text-purple-100 font-semibold">Poder Total</div>
             </div>
-            <div class="absolute bottom-0 right-0 opacity-20">
-              <div class="text-6xl animate-spin" style="animation-duration: 3s;">💥</div>
+            <div class="absolute bottom-0 right-0 opacity-20 hidden sm:block">
+              <div class="text-4xl sm:text-6xl animate-spin" style="animation-duration: 3s;">💥</div>
             </div>
           </div>
         </div>
 
         <!-- Botones de acción -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
           <NuxtLink 
             to="/personajes" 
-            class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 dragon-ball-button"
+            class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 dragon-ball-button text-center"
           >
             👥 Ver Personajes
           </NuxtLink>
           <NuxtLink 
             to="/planetas" 
-            class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 dragon-ball-button"
+            class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 dragon-ball-button text-center"
           >
             🪐 Explorar Planetas
           </NuxtLink>
           <NuxtLink 
             to="/nuevo-personaje" 
-            class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 dragon-ball-button"
+            class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 dragon-ball-button text-center"
           >
             ➕ Crear Personaje
           </NuxtLink>
         </div>
 
         <!-- Sección de Razas Populares -->
-        <div v-if="personajesDestacados.length > 0" class="mt-16 mb-12">
-          <div class="text-center mb-8">
-            <h2 class="text-4xl font-bold section-title mb-4 dragon-ball-title">Razas Populares</h2>
+        <div v-if="personajesDestacados.length > 0" class="mt-12 sm:mt-16 mb-8 sm:mb-12">
+          <div class="text-center mb-6 sm:mb-8">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold section-title mb-3 sm:mb-4 dragon-ball-title">Razas Populares</h2>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div v-for="raza in razasPopulares" 
                  :key="raza.nombre"
                  class="relative bg-white rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300 group">
@@ -362,21 +415,21 @@
         </div>
 
         <!-- Características mejoradas -->
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="relative bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl shadow-lg border-2 border-blue-200 text-center transform hover:scale-105 transition-all duration-300">
-            <div class="text-5xl mb-4">🔍</div>
-            <h3 class="text-xl font-bold text-gray-800 mb-3">Búsqueda Avanzada</h3>
-            <p class="text-gray-600">Encuentra personajes por nombre, raza, planeta o técnica especial</p>
+        <div class="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <div class="relative bg-gradient-to-br from-blue-50 to-blue-100 p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-blue-200 text-center transform hover:scale-105 transition-all duration-300">
+            <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🔍</div>
+            <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3">Búsqueda Avanzada</h3>
+            <p class="text-sm sm:text-base text-gray-600">Encuentra personajes por nombre, raza, planeta o técnica especial</p>
           </div>
-          <div class="relative bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl shadow-lg border-2 border-purple-200 text-center transform hover:scale-105 transition-all duration-300">
-            <div class="text-5xl mb-4">⚡</div>
-            <h3 class="text-xl font-bold text-gray-800 mb-3">Gestión Completa</h3>
-            <p class="text-gray-600">Crea, edita y elimina personajes con validaciones avanzadas</p>
+          <div class="relative bg-gradient-to-br from-purple-50 to-purple-100 p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-purple-200 text-center transform hover:scale-105 transition-all duration-300">
+            <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">⚡</div>
+            <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3">Gestión Completa</h3>
+            <p class="text-sm sm:text-base text-gray-600">Crea, edita y elimina personajes con validaciones avanzadas</p>
           </div>
-          <div class="relative bg-gradient-to-br from-pink-50 to-pink-100 p-8 rounded-2xl shadow-lg border-2 border-pink-200 text-center transform hover:scale-105 transition-all duration-300">
-            <div class="text-5xl mb-4">🎨</div>
-            <h3 class="text-xl font-bold text-gray-800 mb-3">Diseño Moderno</h3>
-            <p class="text-gray-600">Interfaz intuitiva y responsive con Tailwind CSS</p>
+          <div class="relative bg-gradient-to-br from-pink-50 to-pink-100 p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-pink-200 text-center transform hover:scale-105 transition-all duration-300">
+            <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🎨</div>
+            <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3">Diseño Moderno</h3>
+            <p class="text-sm sm:text-base text-gray-600">Interfaz intuitiva y responsive con Tailwind CSS</p>
           </div>
         </div>
       </div>
@@ -386,7 +439,8 @@
 
 <script setup>
 const config = useRuntimeConfig()
-const activeAuthTab = ref<'register' | 'login'>('register')
+const menuOpen = ref(false)
+const loading = ref(true)
 const stats = ref({
   personajes: 0,
   planetas: 0,
@@ -401,100 +455,143 @@ const personajePrincipal = ref(null)
 const razasPopulares = ref([])
 
 onMounted(async () => {
+  loading.value = true
   try {
-    // Cargar estadísticas y personajes destacados
-    const [personajes, planetas] = await Promise.all([
-      $fetch('/api/personajes'),
-      $fetch('/api/planetas')
-    ])
+    console.log('🔄 Iniciando carga de datos...')
     
+    // Cargar estadísticas y personajes destacados con manejo de errores individual
+    let personajes = []
+    let planetas = []
+    
+    try {
+      console.log('📡 Cargando personajes...')
+      const personajesData = await $fetch('/api/personajes')
+      personajes = Array.isArray(personajesData) ? personajesData : []
+      console.log(`✅ Personajes cargados: ${personajes.length}`)
+    } catch (error) {
+      console.error('❌ Error cargando personajes:', error)
+      personajes = []
+    }
+    
+    try {
+      console.log('📡 Cargando planetas...')
+      const planetasData = await $fetch('/api/planetas')
+      planetas = Array.isArray(planetasData) ? planetasData : []
+      console.log(`✅ Planetas cargados: ${planetas.length}`)
+    } catch (error) {
+      console.error('❌ Error cargando planetas:', error)
+      planetas = []
+    }
+    
+    // Actualizar estadísticas
     stats.value.personajes = personajes.length
     stats.value.planetas = planetas.length
     stats.value.poderTotal = personajes.reduce((total, p) => total + (p.nivel_poder || 0), 0).toLocaleString()
     
-    // Seleccionar personajes destacados: Goku primero, luego los más poderosos (sin duplicados)
-    const goku = personajes.find(p => p.nombre && p.nombre.toLowerCase().includes('goku'))
+    console.log('📊 Estadísticas:', stats.value)
     
-    // Filtrar personajes: excluir Goku y duplicados de Celula/Cell
-    let celulaAgregado = false
-    const otrosPersonajes = personajes
-      .filter(p => {
-        // Excluir Goku (ya lo agregaremos primero)
-        if (p.id === goku?.id) return false
-        
-        // Manejar duplicados de Celula/Cell (mantener solo uno)
-        const nombre = (p.nombre || '').toLowerCase()
-        if ((nombre.includes('celula') || nombre.includes('cell'))) {
-          if (celulaAgregado) {
-            return false // Ya hay un Celula, excluir este
+    // Procesar personajes solo si hay datos
+    if (personajes.length > 0) {
+      // Seleccionar personajes destacados: Goku primero, luego los más poderosos (sin duplicados)
+      const goku = personajes.find(p => p.nombre && p.nombre.toLowerCase().includes('goku'))
+      
+      // Filtrar personajes: excluir Goku y duplicados de Celula/Cell
+      let celulaAgregado = false
+      const otrosPersonajes = personajes
+        .filter(p => {
+          // Excluir Goku (ya lo agregaremos primero)
+          if (p.id === goku?.id) return false
+          
+          // Manejar duplicados de Celula/Cell (mantener solo uno)
+          const nombre = (p.nombre || '').toLowerCase()
+          if ((nombre.includes('celula') || nombre.includes('cell'))) {
+            if (celulaAgregado) {
+              return false // Ya hay un Celula, excluir este
+            }
+            celulaAgregado = true
           }
-          celulaAgregado = true
+          return true
+        })
+        .sort((a, b) => (b.nivel_poder || 0) - (a.nivel_poder || 0))
+      
+      // Construir lista: Goku primero, luego los más poderosos (máximo 6, sin duplicados)
+      personajesDestacados.value = []
+      
+      // Agregar Goku primero si existe y establecerlo como personaje principal
+      if (goku) {
+        personajesDestacados.value.push(goku)
+        personajePrincipal.value = goku
+        console.log('⭐ Personaje principal establecido:', goku.nombre)
+      }
+      
+      // Agregar otros personajes (excluyendo duplicados por ID)
+      const idsAgregados = new Set(goku ? [goku.id] : [])
+      for (const personaje of otrosPersonajes) {
+        if (personajesDestacados.value.length >= 6) break
+        if (!idsAgregados.has(personaje.id)) {
+          personajesDestacados.value.push(personaje)
+          idsAgregados.add(personaje.id)
         }
-        return true
+      }
+      
+      // Si no hay Goku, usar el primer personaje destacado como principal
+      if (!personajePrincipal.value && personajesDestacados.value.length > 0) {
+        personajePrincipal.value = personajesDestacados.value[0]
+        console.log('⭐ Personaje principal establecido (fallback):', personajePrincipal.value.nombre)
+      }
+      
+      console.log(`✅ Personajes destacados: ${personajesDestacados.value.length}`)
+      
+      // Calcular razas populares
+      const razasMap = {}
+      personajes.forEach(p => {
+        const raza = p.raza || 'Desconocida'
+        if (!razasMap[raza]) {
+          razasMap[raza] = {
+            nombre: raza,
+            cantidad: 0,
+            personajes: [],
+            maxPower: 0
+          }
+        }
+        razasMap[raza].cantidad++
+        razasMap[raza].personajes.push(p)
+        if ((p.nivel_poder || 0) > razasMap[raza].maxPower) {
+          razasMap[raza].maxPower = p.nivel_poder || 0
+          razasMap[raza].representante = p
+        }
       })
-      .sort((a, b) => (b.nivel_poder || 0) - (a.nivel_poder || 0))
-    
-    // Construir lista: Goku primero, luego los más poderosos (máximo 6, sin duplicados)
-    personajesDestacados.value = []
-    
-    // Agregar Goku primero si existe y establecerlo como personaje principal
-    if (goku) {
-      personajesDestacados.value.push(goku)
-      personajePrincipal.value = goku
+      
+      // Convertir a array, ordenar por cantidad y tomar las 4 más populares
+      razasPopulares.value = Object.values(razasMap)
+        .sort((a, b) => b.cantidad - a.cantidad)
+        .slice(0, 4)
+        .map(raza => ({
+          nombre: raza.nombre,
+          cantidad: raza.cantidad,
+          representante: raza.representante
+        }))
+      
+      console.log(`✅ Razas populares: ${razasPopulares.value.length}`)
+    } else {
+      console.warn('⚠️ No se encontraron personajes para mostrar')
+      // Mantener arrays vacíos pero no fallar
+      personajesDestacados.value = []
+      razasPopulares.value = []
     }
-    
-    // Agregar otros personajes (excluyendo duplicados por ID)
-    const idsAgregados = new Set(goku ? [goku.id] : [])
-    for (const personaje of otrosPersonajes) {
-      if (personajesDestacados.value.length >= 6) break
-      if (!idsAgregados.has(personaje.id)) {
-        personajesDestacados.value.push(personaje)
-        idsAgregados.add(personaje.id)
-      }
-    }
-    
-    // Si no hay Goku, usar el primer personaje destacado como principal
-    if (!personajePrincipal.value && personajesDestacados.value.length > 0) {
-      personajePrincipal.value = personajesDestacados.value[0]
-    }
-    
-    // Calcular razas populares
-    const razasMap = {}
-    personajes.forEach(p => {
-      const raza = p.raza || 'Desconocida'
-      if (!razasMap[raza]) {
-        razasMap[raza] = {
-          nombre: raza,
-          cantidad: 0,
-          personajes: [],
-          maxPower: 0
-        }
-      }
-      razasMap[raza].cantidad++
-      razasMap[raza].personajes.push(p)
-      if ((p.nivel_poder || 0) > razasMap[raza].maxPower) {
-        razasMap[raza].maxPower = p.nivel_poder || 0
-        razasMap[raza].representante = p
-      }
-    })
-    
-    // Convertir a array, ordenar por cantidad y tomar las 4 más populares
-    razasPopulares.value = Object.values(razasMap)
-      .sort((a, b) => b.cantidad - a.cantidad)
-      .slice(0, 4)
-      .map(raza => ({
-        nombre: raza.nombre,
-        cantidad: raza.cantidad,
-        representante: raza.representante
-      }))
   } catch (error) {
-    console.error('Error al cargar estadísticas:', error)
+    console.error('❌ Error general al cargar datos:', error)
     // Usar valores por defecto si hay error
     stats.value = {
-      personajes: 3,
-      planetas: 3,
-      poderTotal: '2,750,000'
+      personajes: 0,
+      planetas: 0,
+      poderTotal: '0'
     }
+    personajesDestacados.value = []
+    razasPopulares.value = []
+  } finally {
+    loading.value = false
+    console.log('✅ Carga de datos completada')
   }
 })
 

@@ -1,22 +1,36 @@
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  srcDir: './', // 👈 añadimos esto por si Nuxt no detecta el directorio raíz
-  modules: ['@nuxtjs/tailwindcss'],
-  css: ['~/assets/css/main.css'],
-  nitro: {
-    experimental: {
-      wasm: true
-    }
-  },
   runtimeConfig: {
     public: {
-      apiBase: 'https://dragonball-api.com',
-      // Fuente de datos para planetas: 'proxy' (recomendado), 'laravel', 'external'
-      planetsSource: 'proxy',
-      // Base del backend Laravel (solo si usas 'laravel' como fuente)
-      laravelBase: 'http://127.0.0.1:8000',
-      // Prefijo de rutas API en Laravel
-      laravelApiPrefix: '/api'
+      laravelBase: 'http://localhost:8000',
+    },
+  },
+
+  app: {
+    head: {
+      meta: [
+        { name: 'referrer', content: 'no-referrer-when-downgrade' }
+      ]
     }
-  }
+  },
+
+  css: ['~/assets/css/main.css'], // <-- FALTABA
+
+  modules: [
+    '@nuxtjs/tailwindcss',        // <-- FALTABA
+  ],
+
+  nitro: {
+    // NO configurar proxy aquí - las rutas de server/api/ deben funcionar directamente
+    // Si necesitas hacer proxy a Laravel, hazlo solo para rutas específicas que no existen en Nuxt
+  },
+
+  devtools: { enabled: true },
+
+  vite: {
+    server: {
+      cors: true,
+      // Removemos el proxy de Vite ya que las rutas del servidor de Nuxt deben tener prioridad
+      // El proxy solo se usará para rutas que no existen en server/api/
+    },
+  },
 })

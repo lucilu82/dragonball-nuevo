@@ -1,0 +1,182 @@
+warning: in the working copy of 'components/LoginForm.vue', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/components/LoginForm.vue b/components/LoginForm.vue[m
+[1mindex cb1db4d..099e357 100644[m
+[1m--- a/components/LoginForm.vue[m
+[1m+++ b/components/LoginForm.vue[m
+[36m@@ -1,83 +1,28 @@[m
+ <script setup lang="ts">[m
+[31m-import type { NitroFetchError } from 'nitropack'[m
+[32m+[m[32mimport { ref } from 'vue'[m
+[32m+[m[32mimport { useAuth } from '~/composables/useAuth'[m
+ [m
+[31m-const props = defineProps<{[m
+[31m-  redirectTo?: string[m
+[31m-}>()[m
+[32m+[m[32mconst auth = useAuth()[m
+ [m
+[31m-const config = useRuntimeConfig()[m
+[31m-const router = useRouter()[m
+[31m-const route = useRoute()[m
+[31m-const xsrfCookie = useCookie<string | null>('XSRF-TOKEN')[m
+[32m+[m[32mconst email = ref<string>('')[m
+[32m+[m[32mconst password = ref<string>('')[m
+ [m
+[31m-const form = reactive({[m
+[31m-  email: '',[m
+[31m-  password: '',[m
+[31m-  remember: false,[m
+[31m-})[m
+[31m-[m
+[31m-const errors = ref<Record<string, string[]>>({})[m
+[31m-const status = ref<string | null>(null)[m
+ const loading = ref(false)[m
+[32m+[m[32mconst errorMessage = ref<string>('')[m
+ [m
+[31m-const redirectTarget = computed(() => props.redirectTo ?? '/')[m
+[31m-[m
+[31m-const ensureCsrfToken = async () => {[m
+[31m-  if (xsrfCookie.value) {[m
+[31m-    return[m
+[31m-  }[m
+[31m-[m
+[31m-  await $fetch(`${config.public.laravelBase}/sanctum/csrf-cookie`, {[m
+[31m-    credentials: 'include',[m
+[31m-  })[m
+[31m-}[m
+[31m-[m
+[31m-const submit = async () => {[m
+[32m+[m[32mconst submitLogin = async () => {[m
+   loading.value = true[m
+[31m-  errors.value = {}[m
+[31m-  status.value = null[m
+[32m+[m[32m  errorMessage.value = ''[m
+ [m
+   try {[m
+[31m-    await ensureCsrfToken()[m
+[31m-[m
+[31m-    const csrfHeader = xsrfCookie.value ? decodeURIComponent(xsrfCookie.value) : ''[m
+[31m-[m
+[31m-    const response = await $fetch<{[m
+[31m-      message?: string[m
+[31m-      redirect_to?: string[m
+[31m-    }>(`${config.public.laravelBase}/login`, {[m
+[31m-      method: 'POST',[m
+[31m-      credentials: 'include',[m
+[31m-      headers: {[m
+[31m-        'Content-Type': 'application/json',[m
+[31m-        Accept: 'application/json',[m
+[31m-        'X-XSRF-TOKEN': csrfHeader,[m
+[31m-      },[m
+[31m-      body: {[m
+[31m-        email: form.email,[m
+[31m-        password: form.password,[m
+[31m-        remember: form.remember,[m
+[31m-      },[m
+[31m-    })[m
+[32m+[m[32m    await auth.csrf()[m
+ [m
+[31m-    status.value = response?.message ?? '¡Bienvenido de nuevo!'[m
+[32m+[m[32m    await auth.login(email.value.trim(), password.value.trim())[m
+ [m
+[31m-    if (route.path !== redirectTarget.value) {[m
+[31m-      await router.push(response?.redirect_to ?? redirectTarget.value)[m
+[31m-    }[m
+[31m-  } catch (error) {[m
+[31m-    const fetchError = error as NitroFetchError<{[m
+[31m-      message?: string[m
+[31m-      errors?: Record<string, string[]>[m
+[31m-    }>[m
+[31m-[m
+[31m-    if (fetchError.statusCode === 422 && fetchError.data?.errors) {[m
+[31m-      errors.value = fetchError.data.errors[m
+[31m-      status.value = fetchError.data.message ?? 'Corrige los campos marcados.'[m
+[31m-      return[m
+[31m-    }[m
+[31m-[m
+[31m-    status.value = fetchError?.data?.message ?? 'No pudimos iniciar sesión. Inténtalo nuevamente.'[m
+[32m+[m[32m    await auth.fetchUser()[m
+[32m+[m[32m  } catch (err: unknown) {[m
+[32m+[m[32m    const e = err as { data?: { message?: string }; message?: string }[m
+[32m+[m[32m    errorMessage.value = e?.data?.message || e?.message || 'Credenciales inválidas'[m
+   } finally {[m
+     loading.value = false[m
+   }[m
+[36m@@ -85,71 +30,15 @@[m [mconst submit = async () => {[m
+ </script>[m
+ [m
+ <template>[m
+[31m-  <form class="space-y-5" @submit.prevent="submit">[m
+[31m-    <div v-if="status" class="rounded-md border border-emerald-400/40 bg-emerald-500/10 p-3 text-sm text-emerald-200">[m
+[31m-      {{ status }}[m
+[31m-    </div>[m
+[31m-[m
+[31m-    <template v-if="errors.email">[m
+[31m-      <div class="rounded-md border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-200">[m
+[31m-        <ul class="space-y-1">[m
+[31m-          <li v-for="error in errors.email" :key="error">[m
+[31m-            {{ error }}[m
+[31m-          </li>[m
+[31m-        </ul>[m
+[31m-      </div>[m
+[31m-    </template>[m
+[31m-[m
+[31m-    <label class="block text-sm font-medium text-slate-300">[m
+[31m-      Correo electrónico[m
+[31m-      <input[m
+[31m-        v-model="form.email"[m
+[31m-        type="email"[m
+[31m-        class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/60"[m
+[31m-        placeholder="goku@capsulecorp.com"[m
+[31m-        required[m
+[31m-        autocomplete="email"[m
+[31m-      >[m
+[31m-    </label>[m
+[32m+[m[32m  <form @submit.prevent="submitLogin">[m
+[32m+[m[32m    <input v-model="email" type="email" placeholder="Email" />[m
+ [m
+[31m-    <template v-if="errors.password">[m
+[31m-      <div class="rounded-md border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-200">[m
+[31m-        <ul class="space-y-1">[m
+[31m-          <li v-for="error in errors.password" :key="error">[m
+[31m-            {{ error }}[m
+[31m-          </li>[m
+[31m-        </ul>[m
+[31m-      </div>[m
+[31m-    </template>[m
+[32m+[m[32m    <input v-model="password" type="password" placeholder="Contraseña" />[m
+ [m
+[31m-    <label class="block text-sm font-medium text-slate-300">[m
+[31m-      Contraseña[m
+[31m-      <input[m
+[31m-        v-model="form.password"[m
+[31m-        type="password"[m
+[31m-        class="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/60"[m
+[31m-        required[m
+[31m-        autocomplete="current-password"[m
+[31m-      >[m
+[31m-    </label>[m
+[31m-[m
+[31m-    <label class="flex items-center gap-2 text-sm text-slate-300">[m
+[31m-      <input[m
+[31m-        v-model="form.remember"[m
+[31m-        type="checkbox"[m
+[31m-        class="h-4 w-4 rounded border-slate-700 bg-slate-900 text-emerald-400 focus:ring-emerald-400/60"[m
+[31m-      >[m
+[31m-      Recordarme en este dispositivo[m
+[31m-    </label>[m
+[31m-[m
+[31m-    <button[m
+[31m-      type="submit"[m
+[31m-      :disabled="loading"[m
+[31m-      class="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-white transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300/70 disabled:cursor-not-allowed disabled:bg-emerald-500/60"[m
+[31m-    >[m
+[31m-      <span v-if="loading" class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />[m
+[31m-      <span>{{ loading ? 'Ingresando...' : 'Iniciar sesión' }}</span>[m
+[32m+[m[32m    <button :disabled="loading">[m
+[32m+[m[32m      {{ loading ? 'Cargando...' : 'Entrar' }}[m
+     </button>[m
+[32m+[m
+[32m+[m[32m    <p v-if="errorMessage">{{ errorMessage }}</p>[m
+   </form>[m
+ </template>[m
+[31m-[m
